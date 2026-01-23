@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ちんゲーム</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <h1>ちんゲーム</h1>
+
+        <!-- モード選択 -->
+        <div id="mode-selection">
+            <div class="settings-group">
+                <h3>ゲーム設定</h3>
+                <div class="char-settings">
+                    <label>文字1: <input type="text" id="setting-char1" value="ち" maxlength="1" class="char-input"></label>
+                    <label>文字2: <input type="text" id="setting-char2" value="ん" maxlength="1" class="char-input"></label>
+                </div>
+                <label id="time-limit-setting">
+                    持ち時間 (秒, 0で制限なし):
+                    <input type="number" id="setting-time" value="30" min="0" max="60">
+                </label>
+            </div>
+            <button id="local-mode-btn" class="mode-btn">ひとり or 近くで対戦 (ローカル)</button>
+            <button id="online-mode-btn" class="mode-btn secondary">友達と対戦 (オンライン)</button>
+        </div>
+        
+        <!-- ロビー (オンラインのみ) -->
+        <div id="lobby" class="hidden">
+            <button id="create-room">部屋を作成</button>
+            <div class="join-container">
+                <input type="text" id="room-id" placeholder="部屋番号(4桁)">
+                <button id="join-room">部屋に参加</button>
+            </div>
+            <button id="back-to-modes" class="text-btn">← モード選択に戻る</button>
+        </div>
+
+        <!-- ゲーム画面 -->
+        <div id="game" class="hidden">
+            <div class="game-header">
+                <div id="room-info">部屋番号: <span id="display-room-id"></span></div>
+                <div id="timer-display" class="timer hidden">残り: <span id="time-left">30</span>秒</div>
+            </div>
+            <div id="status">対戦相手を待っています...</div>
+            
+            <div class="game-container">
+                <div id="side-controls" class="hidden">
+                    <div class="symbol-selector vertical">
+                        <button class="symbol-btn selected" data-symbol="ち">ち</button>
+                        <button class="symbol-btn" data-symbol="ん">ん</button>
+                    </div>
+                </div>
+                
+                <div id="board" class="board">
+                    <!-- 25個のマスがここに生成される -->
+                </div>
+            </div>
+
+            <div id="controls" class="hidden">
+                <p id="turn-instruction">配置する文字を選択:</p>
+            </div>
+
+            <div id="post-game" class="hidden">
+                <div class="rematch-controls">
+                    <button id="rematch-btn">もう一度遊ぶ</button>
+                    <button id="quit-btn" class="secondary">ロビーに戻る</button>
+                </div>
+                <div id="rematch-status"></div>
+            </div>
+            <button id="exit-game" class="text-btn hidden">← 終了する</button>
+        </div>
+    </div>
+
+    <!-- 勝利/敗北アニメーション用オーバーレイ -->
+    <div id="overlay" class="overlay hidden">
+        <div id="overlay-content"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
